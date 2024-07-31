@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4941769C2C182A920016D5FB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4941769B2C182A920016D5FB /* main.swift */; };
+		494176A32C182C570016D5FB /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494176A22C182C570016D5FB /* File.swift */; };
+		494176A52C182C9D0016D5FB /* AnotherFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494176A42C182C9D0016D5FB /* AnotherFile.swift */; };
+		4956FE292C1985C000EFD38F /* FahrkartAutomat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4956FE282C1985C000EFD38F /* FahrkartAutomat.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +28,9 @@
 /* Begin PBXFileReference section */
 		494176982C182A920016D5FB /* AccessModifiers */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AccessModifiers; sourceTree = BUILT_PRODUCTS_DIR; };
 		4941769B2C182A920016D5FB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		494176A22C182C570016D5FB /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		494176A42C182C9D0016D5FB /* AnotherFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherFile.swift; sourceTree = "<group>"; };
+		4956FE282C1985C000EFD38F /* FahrkartAutomat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FahrkartAutomat.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,9 @@
 			isa = PBXGroup;
 			children = (
 				4941769B2C182A920016D5FB /* main.swift */,
+				494176A22C182C570016D5FB /* File.swift */,
+				494176A42C182C9D0016D5FB /* AnotherFile.swift */,
+				4956FE282C1985C000EFD38F /* FahrkartAutomat.swift */,
 			);
 			path = AccessModifiers;
 			sourceTree = "<group>";
@@ -121,6 +130,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4941769C2C182A920016D5FB /* main.swift in Sources */,
+				494176A32C182C570016D5FB /* File.swift in Sources */,
+				4956FE292C1985C000EFD38F /* FahrkartAutomat.swift in Sources */,
+				494176A52C182C9D0016D5FB /* AnotherFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
