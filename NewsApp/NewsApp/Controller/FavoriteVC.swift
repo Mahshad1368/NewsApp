@@ -7,23 +7,37 @@
 
 import UIKit
 
-class FavoriteVC: UIViewController {
+class FavoriteVC: HomeFeedVC {
 
+    private let emptyStateView = EmptyStateView(imageSystemNamw: "star", text: "Es sind keine Favoriten verfügbar.")
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        tableView.tableFooterView = UIView()
+        tableView.refreshControl = nil
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(favoritesDidChange), name: Notification.Name("favoritesDidChange"), object: nil)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @objc
+    func favoritesDidChange () {
+        updateNewsItem()
     }
-    */
+    
+    
+    override func configureVc (){
+        view.backgroundColor = .systemBackground
+        title = "Favoriten"
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    override func updateNewsItem() {
+        self.articles = PersistenceManager.shared.getAllFavoriteArticles()
+        updateData(articles: articles)
+        
+        if articles.isEmpty {
+            tableView.backgroundView = emptyStateView
+        }else{
+            tableView.backgroundView = nil
+        }
+    }
 
 }

@@ -9,12 +9,28 @@ import UIKit
 
 class NewsButton: UIButton {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+   
+    init(backgroundColor: UIColor, title: String){
+        super.init(frame: .zero)
+        
+        self.backgroundColor = backgroundColor
+        self.setTitle(title, for: .normal)
+        configure()
+        
+  
+        
     }
-    */
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configure(){
+        titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        layer.cornerRadius = 12
+        
+    }
+    
 }

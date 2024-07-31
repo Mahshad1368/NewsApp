@@ -38,3 +38,17 @@ class DetailViewController: UIViewController {
         }
     }
 }
+
+override func viewWillDisappear (_ animated: Bool){
+    super.viewWillDisappear(animated)
+    
+    if isNewsItemFavorites && !PersistanceManager.shared.isArticleAlreadyFavorite(newsItem){
+        PersistanceeManager.shared.removeFavorite(newsItem: newsItem)
+        
+    }else if !isNewsItemFavorite && PersistanceManager.shared.isArticleAlreadyFavorite(newsItem){
+        PersistanceManager.shared.removeFavorite(newsItem: newsItem)
+    }
+    delegate?.newsItemFavoritesStatusChanged(stillFavorite: isNewsItemFavorite)
+    
+}
+

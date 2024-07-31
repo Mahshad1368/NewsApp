@@ -8,12 +8,20 @@
 import UIKit
 
 extension UIView {
-    func pinToEdges(of superView: UIView, withPadding padding: CGFloat = 0){
+    
+    func addSubViews(views: [UIView]){
+        views.forEach { view in
+            addSubview(view)
+        }
+    }
+    
+    
+    func pinToEdges(of superView: UIView, withPadding padding: CGFloat = 0 , considerSafeArea: Bool = false ){
         NSLayoutConstraint.activate([
-            self.topAnchor.constraint(equalTo: superView.topAnchor, constant: padding),
-            self.bottomAnchor.constraint(equalTo: superView.bottomAnchor, constant: -padding),
-            self.leadingAnchor.constraint(equalTo: superView.leadingAnchor, constant: padding),
-            self.trailingAnchor.constraint(equalTo: superView.trailingAnchor, constant: -padding)
+            self.topAnchor.constraint(equalTo: considerSafeArea ? superView.safeAreaLayoutGuide.topAnchor : superView.topAnchor, constant: padding),
+            self.bottomAnchor.constraint(equalTo:  considerSafeArea ? superView.safeAreaLayoutGuide.bottomAnchor : superView.bottomAnchor, constant: -padding),
+            self.leadingAnchor.constraint(equalTo:  considerSafeArea ? superView.safeAreaLayoutGuide.leadingAnchor : superView.leadingAnchor, constant: padding),
+            self.trailingAnchor.constraint(equalTo:  considerSafeArea ? superView.safeAreaLayoutGuide.trailingAnchor : superView.trailingAnchor, constant: -padding)
             
         ])
     }

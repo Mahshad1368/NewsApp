@@ -6,16 +6,17 @@
 //
 
 import UIKit
-
+#warning("Schriftgröße")
 class HomeFeedVC: UIViewController {
     
     enum Section{
         case main
     }
-    private let tableView = UITableView()
+    let tableView = UITableView()
     var dataSource: UITableViewDiffableDataSource<Section, Article>!
     
-    private var data:[Article] = []
+    var articles:[Article] = []
+    
     private var containerView: UIView!
     
 
@@ -26,8 +27,7 @@ class HomeFeedVC: UIViewController {
         configureDataSource()
         configureVc()
         updateNewsItem()
-        showLoadingSpinner()
-        dismissLoadindSpinner()
+
     }
         
         private func configureRefreshControll(){
@@ -41,23 +41,23 @@ class HomeFeedVC: UIViewController {
             DispatchQueue.main.async {
                 self.tableView.refreshControl?.endRefreshing()
             }
+            showLoadingSpinner()
             NetworkManager.shared.getNewsItem { (result) in
                 switch result{
                 case .success(let newsResponse):
                     self.updateData(articles: newsResponse.articles)
                 case .failure(let error):
-                    print(error.rawValue)
+                    self.presentWarningAlert(title: "Fehler", message: error.rawValue)
                 }
-                self.dismissLoadindSpinner()
+                
+                self.dismissLoadingSpinner()
             }
-            
         }
-    
-    
+
     private func configureUITableView (){
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        
+        tableView.delegate = self
         tableView.pinToEdges(of: view)
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.reuseID)
     }
@@ -76,6 +76,7 @@ class HomeFeedVC: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(articles)
         self.dataSource.apply(snapshot)
+        self.articles = articles
     }
     
     func configureVc (){
@@ -94,7 +95,7 @@ class HomeFeedVC: UIViewController {
         containerView.alpha = 0
         
         UIView.animate(withDuration: 0.25) {
-            self.containerView.alpha = 0.6
+            self.containerView.alpha = 0.85
         }
         let activityIndicator = UIActivityIndicatorView(style: .large)
         containerView.addSubview(activityIndicator)
@@ -107,7 +108,7 @@ class HomeFeedVC: UIViewController {
     }
     
     
-    func dismissLoadindSpinner(){
+    func dismissLoadingSpinner(){
         DispatchQueue.main.async {
             self.containerView?.removeFromSuperview()
             self.containerView = nil
@@ -115,3 +116,15 @@ class HomeFeedVC: UIViewController {
     }
 }
 
+extension HomeFeedVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        
+        if let selectedArticle = dataSource.itemIdentifier(for: indexPath){
+            let detailVC = DetailVC(article: selectedArticle, articles: articles)
+            navigationController?.pushViewController(detailVC, animated: true)
+        
+        }
+    }
+}

@@ -9,12 +9,26 @@ import UIKit
 
 class NewsImageView: UIImageView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    override var intrinsicContentSize: CGSize{
+        return CGSize(width: UIScreen.main.bounds.width, height: 200)
     }
-    */
-
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentMode = .scaleAspectFit
+        translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setImage(urlString: String?){
+        image = nil
+        NetworkManager.shared.downloadImage(from: urlString) { (image) in
+            DispatchQueue.main.async {
+                self.image = image
+            }
+        }
+    }
 }

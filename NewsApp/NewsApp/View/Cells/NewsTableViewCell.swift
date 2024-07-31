@@ -10,20 +10,8 @@ import UIKit
 class NewsTableViewCell: UITableViewCell {
     static let reuseID = "newsCell"
     
-    private let titleLable: UILabel = {
-        let lable = UILabel()
-        lable.translatesAutoresizingMaskIntoConstraints = false
-        lable.font = UIFont.preferredFont(forTextStyle: .headline)
-        lable.numberOfLines = 0
-        return lable
-    }()
-    private let subtitleLable: UILabel = {
-        let lable = UILabel()
-        lable.translatesAutoresizingMaskIntoConstraints = false
-        lable.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        lable.numberOfLines = 0
-        return lable
-    }()
+    private let titleLable = NewsLable(fontStyle: .headline)
+    private let subtitleLable = NewsLable(fontStyle: .subheadline)
     
     private let titleStackView: UIStackView = {
         let stackView = UIStackView()
