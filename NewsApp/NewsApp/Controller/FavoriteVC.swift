@@ -7,20 +7,45 @@
 
 import UIKit
 
+class FavoriteNewsItemDataSource: UITableViewDiffableDataSource<HomeFeedVC.Section, Article> {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if let article = itemIdentifier(for: indexPath){
+                var snapshot = self.snapshot()
+                snapshot.deleteItems([article])
+                apply(snapshot)
+                
+                
+                PersistenceManager.shared.removeFavoriteArticle(article: article) {
+                    NotificationCenter.default.post(name: .favoritesDidChange, object: nil)
+                }
+                
+            }
+        }
+    }
+    
+}
+
 class FavoriteVC: HomeFeedVC {
 
-    private let emptyStateView = EmptyStateView(imageSystemNamw: "star", text: "Es sind keine Favoriten verfügbar.")
+    private let emptyStateView = EmptyStateView(imageSystemName: "star", text: "Es sind keine Favoriten verfügbar.")
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
         tableView.refreshControl = nil
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(favoritesDidChange), name: Notification.Name("favoritesDidChange"), object: nil)
+//        navigationItem.rightBarButtonItem = editButtonItem
+        NotificationCenter.default.addObserver(self, selector: #selector(updateNewsItem), name: .favoritesDidChange, object: nil)   //Anpassen
     }
     
-    @objc
-    func favoritesDidChange () {
-        updateNewsItem()
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: true)
     }
     
     
@@ -35,9 +60,23 @@ class FavoriteVC: HomeFeedVC {
         
         if articles.isEmpty {
             tableView.backgroundView = emptyStateView
+            tableView.setEditing(false, animated: true)
+            navigationItem.rightBarButtonItem = nil
+            tableView.isScrollEnabled = false
         }else{
             tableView.backgroundView = nil
+            navigationItem.rightBarButtonItem = editButtonItem
+            tableView.isScrollEnabled = true
         }
+    }
+    override func configureDataSource() {
+        dataSource = FavoriteNewsItemDataSource(tableView: tableView, cellProvider: { (tableView, indexPath, article) -> UITableViewCell? in
+            let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.reuseID, for: indexPath) as? NewsTableViewCell
+            
+            cell?.setCell(article: article)
+            
+            return cell
+        })
     }
 
 }

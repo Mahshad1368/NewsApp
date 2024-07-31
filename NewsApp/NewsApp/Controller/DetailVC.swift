@@ -94,13 +94,13 @@ class DetailVC: UIViewController {
          if PersistenceManager.shared.isArticleAlreadyFavorite(article: article){
              PersistenceManager.shared.removeFavoriteArticle(article: article){
                  favoriteButton.image = UIImage(systemName: "star", withConfiguration:  config)
-                 NotificationCenter.default.post(name: Notification.Name("favoritesDidChange"), object: nil)
+                 NotificationCenter.default.post(name: .favoritesDidChange, object: nil)
              }
             
          }else{
              PersistenceManager.shared.addFavoriteArticle(article: article){
                  favoriteButton.image = UIImage(systemName: "star.fill", withConfiguration:  config)
-                 NotificationCenter.default.post(name: Notification.Name("favoritesDidChange"), object: nil)
+                 NotificationCenter.default.post(name: .favoritesDidChange, object: nil)
              }
              
          }
@@ -172,7 +172,11 @@ class DetailVC: UIViewController {
         
         
         self.titleLable.text = article.title
-        self.contentLable.text = article.content
+        
+        
+        self.contentLable.text = article.content == nil || article.content == "" ? article.description : article.content
+        
+        
         self.infoLable.text = "Autor: \(article.author ?? "N/A") /\(article.publishedAt?.getStringRepreaentation() ?? "N/A") Uhr "
 
         self.imageView.setImage(urlString: article.urlToImage)
