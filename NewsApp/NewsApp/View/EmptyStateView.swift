@@ -22,12 +22,12 @@ class EmptyStateView: UIView {
     
     private let textToDisplay = NewsLable(fontStyle: .headline, numberOfLines: 0, textAlignment: .center)
     
-    init(imageSystemNamw: String, text: String){
+    init(imageSystemName: String, text: String){
         super.init(frame: .zero)
         
         let config = UIImage.SymbolConfiguration(pointSize: 100, weight: .regular, scale: .large)
         
-        emptyStateViewImage.image = UIImage(systemName: imageSystemNamw, withConfiguration: config)
+        emptyStateViewImage.image = UIImage(systemName: imageSystemName, withConfiguration: config)
         textToDisplay.text = text
     }
     

@@ -20,7 +20,7 @@ class NetworkManager {
     static let shared = NetworkManager()
     private init(){ }
     
-    private let baseURLString = "https://newsapi.org/v2/top-headlines?q=iran&apiKey="
+    private let baseURLString = "https://newsapi.org/v2/top-headlines?q=germany&apiKey="
     private let apikey = "c8f0c01198c5478dadd552600a51bb0c"
    
     
